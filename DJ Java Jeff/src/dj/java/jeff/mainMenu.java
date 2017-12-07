@@ -1,24 +1,23 @@
+/*Dave Ross and Jordan Gilmore
+  CIS 170 Final Project
+  "Product Inventory System"
+  Dec. 2017
+*/
+
 package dj.java.jeff;
 
 import java.io.FileNotFoundException;
 import java.util.*;
 
-/**
- *
- * @author rossd
- * @co-author gilmorej
- */
-
 public class mainMenu{
+    static Scanner input = new Scanner(System.in);
     static InventoryData inv = new InventoryData();
     static ArrayList<Product> mainProdList = new ArrayList<>();
-    static Scanner input = new Scanner(System.in);
     int start = 0;
-         
+    
     public void viewMainMenu() throws FileNotFoundException{
-        if(start == 0)
-        {
-            inv.openInventory();
+        if(start == 0){
+            inv.openInventory(); 
             mainProdList = inv.getInventoryList();
             start++;
         }
@@ -33,21 +32,20 @@ public class mainMenu{
         System.out.println("\n0. Exit Program");
         System.out.print("\nSelect Option >> ");
 
-        int option = input.nextInt();
+        String option = input.next();
 
         switch (option){
-            case 1: viewInv();
+            case "1": viewInv();
                 break;
-            case 2: searchMenu();
+            case "2": searchMenu();
                 break;
-            case 3: addInv();
+            case "3": addInv();
                 break;
-            case 4: editInv();
+            case "4": editInv();
                 break;
-            case 5: deleteInv();
+            case "5": deleteInv();
                 break;
-            case 0:
-                inv.saveInventory(mainProdList);
+            case "0":
                 System.out.println("... Exiting ... ");
                 break;
             default:
@@ -62,13 +60,15 @@ public class mainMenu{
 
         System.out.println("\nItems in Stock");
         printList();
+
         System.out.print("\nExit to Main Menu y/n? >> ");
         String choice = input.next().toLowerCase();
 
         while("n".equals(choice)) {
             System.out.println("\nItems in Stock");
-
+            
             printList();
+            
             System.out.print("\nExit to Main Menu y/n? >> ");
             choice = input.next().toLowerCase();
         }
@@ -81,32 +81,40 @@ public class mainMenu{
         }
     }
     
-     public void searchMenu() throws FileNotFoundException{
+    public void searchMenu() throws FileNotFoundException{
+        input.nextLine();
         System.out.println("\t\nDJ Outfitters Worldwide");
         System.out.println("Search Inventory");
 
         System.out.print("\nExit to Main Menu y/n? >> ");
         String choice = input.next().toLowerCase();
-
+        
         while("n".equals(choice)) {
+            int results = 0; 
             System.out.print("\nSearch by Product ID or Description >> ");
 
             //Plug in elements to search and access the text file
 
             input.nextLine();
-            String search = input.nextLine();
+            String search = input.nextLine().toLowerCase();
             
             boolean contains = false;
             ArrayList<Product> checkAry = new ArrayList<>();
             for(int i = 0; i < mainProdList.size(); i++){
-                String prod = mainProdList.get(i).toString();
+                String prod = mainProdList.get(i).toString().toLowerCase();
                 boolean check = prod.contains(search);
                     if(check == true){
                         checkAry.add(mainProdList.get(i));
                         contains = true;
+                        results++;
                     }
             }
             if(contains == true){
+                if(results == 1){
+                    System.out.println("\nYour search returned " + results + " result");
+                }else{
+                    System.out.println("\nYour seach returned " + results + " results");
+                }
                 for(int i=0; i < checkAry.size(); i++){
                     System.out.println(checkAry.get(i));
                 }                
@@ -114,7 +122,7 @@ public class mainMenu{
                 System.out.println("Your Search Returned No Matches");
             }
                  
-            System.out.println("\nExit to Main Menu y/n? >> ");
+            System.out.print("\nExit to Main Menu y/n? >> ");
             choice = input.next().toLowerCase();
         }
 
@@ -127,7 +135,6 @@ public class mainMenu{
     }
     
     public void addInv() throws FileNotFoundException {
-
         System.out.println("\t\nDJ Outfitters Worldwide");
         System.out.println("Add to Inventory");
 
@@ -148,7 +155,7 @@ public class mainMenu{
                     addInv();
                 }
             }
-            
+
             System.out.print("\nEnter Product Color >> ");
             String color = input.nextLine();
             System.out.print("\nEnter Product Name >> ");
@@ -199,9 +206,9 @@ public class mainMenu{
             System.out.println("1. Color ");
             System.out.println("2. Name ");
             System.out.println("3. Quantity ");
-            System.out.print("Select category to edit");
+            System.out.println("Select category to edit >> ");
             int propChoice = input.nextInt();
-            System.out.print("Insert new information >> ");
+            System.out.print("Enter new information >> ");
             String newInfo = input.next();
             
             //Change object in mainProdList
@@ -230,42 +237,37 @@ public class mainMenu{
         }
     }
     
-    //Jordan's Method
-    public void deleteInv() throws FileNotFoundException{
+    public void deleteInv() throws FileNotFoundException {
         System.out.println("\t\nDJ Outfitters Worldwide");
         System.out.println("Delete Inventory");
 
-        System.out.println("\nItems in Stock");
-        
         System.out.print("\nExit to Main Menu y/n? >> ");
         String choice = input.next().toLowerCase();
 
         while("n".equals(choice)) {
-            System.out.println("\nItems to Stock");
-
+            printList();
             
-            printList();
-            System.out.print("Select Product to Delete >>");
+            input.nextLine();
+            System.out.print("\nSelect Product to Delete >> ");
             int pick = input.nextInt();
-            mainProdList.remove(pick - 1);
-            printList();
+            mainProdList.remove(pick-1);
+            
             System.out.print("\nExit to Main Menu y/n? >> ");
             choice = input.next().toLowerCase();
         }
 
-        if ("y".equals(choice)){
+        if ("y".equals(choice)) {
             viewMainMenu();
-        }else{
+        } else {
             System.out.println("Invalid Choice");
-            deleteInv();
+            editInv();
         }
     }
     public void printList(){
-        int i = 1;
+        int i = 0;
         for(Product prod: mainProdList){
-            System.out.println(i + "." + prod.toString());
+            System.out.println((i+1) + ". " + prod.toString());
             i++;
         }
-
     }
 }
