@@ -81,7 +81,7 @@ public class mainMenu{
         }
     }
     
-    public void searchMenu() throws FileNotFoundException{
+     public void searchMenu() throws FileNotFoundException{
         System.out.println("\t\nDJ Outfitters Worldwide");
         System.out.println("Search Inventory");
 
@@ -89,15 +89,31 @@ public class mainMenu{
         String choice = input.next().toLowerCase();
 
         while("n".equals(choice)) {
-            System.out.println("Search by Product ID or Description >> ");
+            System.out.print("\nSearch by Product ID or Description >> ");
 
             //Plug in elements to search and access the text file
 
             input.nextLine();
             String search = input.nextLine();
-
-            //String result = invSearch(search);
-
+            
+            boolean contains = false;
+            ArrayList<Product> checkAry = new ArrayList<>();
+            for(int i = 0; i < mainProdList.size(); i++){
+                String prod = mainProdList.get(i).toString();
+                boolean check = prod.contains(search);
+                    if(check == true){
+                        checkAry.add(mainProdList.get(i));
+                        contains = true;
+                    }
+            }
+            if(contains == true){
+                for(int i=0; i < checkAry.size(); i++){
+                    System.out.println(checkAry.get(i));
+                }                
+            }else{
+                System.out.println("Your Search Returned No Matches");
+            }
+                 
             System.out.println("\nExit to Main Menu y/n? >> ");
             choice = input.next().toLowerCase();
         }
@@ -121,14 +137,24 @@ public class mainMenu{
         while ("n".equals(choice)) {
             input.nextLine();
             System.out.print("\nEnter Product ID >> ");
-            String id = input.nextLine();
+            String id = input.nextLine().toUpperCase();
+            for(int i = 0; i < mainProdList.size(); i++)
+            {
+                if(id.equals(mainProdList.get(i).getProdId().toUpperCase()))
+                {
+                    System.out.println("Product already exists, Please try again");
+                    System.out.println(mainProdList.get(i).toString());
+                    System.out.println("Menu will reload");
+                    addInv();
+                }
+            }
+            
             System.out.print("\nEnter Product Color >> ");
             String color = input.nextLine();
             System.out.print("\nEnter Product Name >> ");
             String name = input.nextLine();
             System.out.print("\nEnter Starting Quantity >> ");
             String qty = input.nextLine();
-
             Product prod = new Product(id, color, name, qty);
             mainProdList.add(prod);
 
@@ -173,6 +199,7 @@ public class mainMenu{
             System.out.println("1. Color ");
             System.out.println("2. Name ");
             System.out.println("3. Quantity ");
+            System.out.print("Select category to edit");
             int propChoice = input.nextInt();
             System.out.print("Insert new information >> ");
             String newInfo = input.next();

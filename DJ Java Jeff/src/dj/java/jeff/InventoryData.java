@@ -50,10 +50,6 @@ public class InventoryData {
             
             prodList.add(thing);
         }
-//         //Foreach - For testing purposes
-//        for(Product prod: prodList){
-//            System.out.println(prod.toString());
-//        }
     }
     
     /*

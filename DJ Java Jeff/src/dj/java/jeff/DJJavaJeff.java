@@ -12,6 +12,8 @@ public class DJJavaJeff {
         mainMenu menu = new mainMenu();
         menu.viewMainMenu();
     }
+    
+    //Test code
 //    static InventoryData inv = new InventoryData();
 //    static ArrayList<Product> mainProdList = new ArrayList<>();
 //    static Scanner input = new Scanner(System.in);
