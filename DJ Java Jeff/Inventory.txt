@@ -1,3 +1,5 @@
 P120 Blue Jacket 4
 S450 Black Cardigan 25
 S505 Maroon Shirt 4
+Z505 Gold Neck-Chain 3
+T100 Steel Robert-Wagner 1

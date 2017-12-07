@@ -46,7 +46,9 @@ public class mainMenu{
             case "5": deleteInv();
                 break;
             case "0":
+                inv.saveInventory(mainProdList);
                 System.out.println("... Exiting ... ");
+                System.exit(0);
                 break;
             default:
                 System.out.println("Invalid Choice");
@@ -164,8 +166,9 @@ public class mainMenu{
             String qty = input.nextLine();
             Product prod = new Product(id, color, name, qty);
             mainProdList.add(prod);
+            System.out.println("Updated List >> ");
 
-            //Insert code to add new prod to text file
+            printList();
 
             System.out.print("\nExit to Main Menu y/n? >> ");
             choice = input.next().toLowerCase();
@@ -191,18 +194,18 @@ public class mainMenu{
 
             printList();
             System.out.print("\nSelect Product to Edit >> ");
-            String prodChoice = input.next();
-            
-            int matchedIndex = 0;
-            for(int i = 0; i < mainProdList.size(); i++)
-            {
-                if(Objects.equals(mainProdList.get(i).getProdName(), prodChoice)){
-                    matchedIndex = 0;
-                    i = mainProdList.size() + 2;
-                }
-            }
+            int prodChoice = input.nextInt();
+            prodChoice -= 1;
+//            int matchedIndex = 0;
+//            for(int i = 0; i < mainProdList.size(); i++)
+//            {
+//                if(Objects.equals(mainProdList.get(i).getProdName(), prodChoice)){
+//                    matchedIndex = mainProdList.indexOf(i);
+//                    i = mainProdList.size() + 2;
+//                }
+//            }
             System.out.println("You Selected >> ");
-            System.out.println(mainProdList.get(matchedIndex).toString());
+            System.out.println(mainProdList.get(prodChoice).toString());
             System.out.println("1. Color ");
             System.out.println("2. Name ");
             System.out.println("3. Quantity ");
@@ -213,11 +216,11 @@ public class mainMenu{
             
             //Change object in mainProdList
             switch (propChoice){
-            case 1: mainProdList.get(matchedIndex).setProdColor(newInfo);
+            case 1: mainProdList.get(prodChoice).setProdColor(newInfo);
                 break;
-            case 2: mainProdList.get(matchedIndex).setProdName(newInfo);
+            case 2: mainProdList.get(prodChoice).setProdName(newInfo);
                 break;
-            case 3: mainProdList.get(matchedIndex).setProdQty(newInfo);
+            case 3: mainProdList.get(prodChoice).setProdQty(newInfo);
                 break;
             default:
                 System.out.println("Invalid Choice");

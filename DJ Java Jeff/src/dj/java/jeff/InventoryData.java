@@ -71,7 +71,7 @@ public class InventoryData {
 
                     output.print(saveList.get(i).getProdId() + " ");
                     output.print(saveList.get(i).getProdColor() + " ");
-                    output.print(saveList.get(i).getProdName() + " ");
+                    output.print(saveList.get(i).getProdName().replaceAll(" ","-") + " ");
                     output.println(saveList.get(i).getProdQty());
                 }
                 output.close();
